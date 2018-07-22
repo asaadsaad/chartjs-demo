@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="data.js"></script>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+</body>
+<script>
+    const labels = new Array();
+    const symbols = new Array();
+    let prices = new Array();
+    let colors = ['gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold', 'gold'];
+    Object.keys(data).map((currency) => {
+        // console.log(data[currency]);
+        labels.push(data[currency].name + ' ' + data[currency].symbol);
+        // symbols.push();
+        prices.push(data[currency].quotes.USD.price);
+    })
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cryptocurrencies Prices',
+                backgroundColor: colors,
+                // backgroundColor: 'gold',
+                borderColor: 'gold',
+                data: prices,
+            }]
+        },
+
+        // Configuration options go here
+        options: {}
+    });
+    setInterval(() => {
+        chart.data.datasets[0].label = 'Ohhh prices has changed!';
+        let counter = 0;
+        while (counter <= 10) {
+            chart.data.datasets[0].data[counter] = getRandomInt();
+            chart.data.datasets[0].backgroundColor[counter] = '#' + getRandomColor();
+            counter++;
+        }
+        chart.update();
+    }, 1000)
+
+
+
+    function getRandomInt(min = 0, max = 8000) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    function getRandomColor(min = 0, max = 999999) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+
+</html>
